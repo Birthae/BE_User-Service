@@ -12,18 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/user")
 @Slf4j
-public class test_controller {
+public class Usercontroller {
 
     Environment env;
 
     @Autowired
-    public test_controller(Environment env){
+    private Greeting greeting;
+
+    @Autowired
+    public Usercontroller(Environment env){
         this.env = env;
     }
 
     @GetMapping("/welcome")
     public String welcome(){
-        return "welcome!";
+//        return "welcome!";
+//        return env.getProperty("greeting.message"); // 첫번째 방법
+        return greeting.getMessage();
     }
 
     @GetMapping("/message")
