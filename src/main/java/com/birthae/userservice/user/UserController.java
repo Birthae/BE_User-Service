@@ -3,10 +3,12 @@ package com.birthae.userservice.user;
 import com.birthae.userservice.Greeting;
 import com.birthae.userservice.domain.User;
 import com.birthae.userservice.dto.ResponseMessage;
+import com.birthae.userservice.dto.user.UserCommonDto;
 import com.birthae.userservice.dto.user.UserCreateRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,7 @@ public class UserController {
         return String.format("Hi, there. This is a message from User-service on PORT %s", env.getProperty("local.server.port"));
     }
 
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<ResponseMessage> createUser(@RequestBody UserCreateRequestDto userCreateRequestDto){
 
@@ -55,5 +58,19 @@ public class UserController {
         return ResponseEntity.status(201).body(response);
     }
 
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<ResponseMessage> login(@RequestBody UserCommonDto userCommonDto) throws BadRequestException {
+
+        User user = userService.login(userCommonDto);
+
+        ResponseMessage response = ResponseMessage.builder()
+                .data(user)
+                .statusCode(201)
+                .resultMessage("Login successfully")
+                .build();
+
+        return ResponseEntity.status(201).body(response);
+    }
 
 }
