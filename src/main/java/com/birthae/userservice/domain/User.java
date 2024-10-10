@@ -50,4 +50,6 @@ public class User extends CommonEntity {
 
     private int point;
 
+    private String EncryptrfPwd;
+
 }

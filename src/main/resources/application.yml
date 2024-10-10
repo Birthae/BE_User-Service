@@ -17,6 +17,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+  config:
+    import: application-secret.yml
 
 eureka:
   instance:
@@ -29,3 +35,7 @@ eureka:
 
 greeting:
   message: Welcome to the E-commerce.
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
