@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<ResponseMessage> createUser(@RequestBody UserCreateRequestDto userCreateRequestDto){
+    public ResponseEntity<ResponseMessage> createUser(@RequestBody UserCreateRequestDto userCreateRequestDto) throws BadRequestException {
 
         System.out.println("userCreateRequestDto : " + userCreateRequestDto);
         User createdUser = userService.createUser(userCreateRequestDto);
@@ -66,14 +65,12 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<ResponseMessage> login(@RequestBody UserCommonDto userCommonDto) throws BadRequestException {
+    public ResponseEntity<ResponseMessage> login(@RequestBody UserCommonDto userCommonDto, HttpServletResponse res) throws BadRequestException {
 
-        System.out.println("userCommonDto : " + userCommonDto);
-
-        User user = userService.login(userCommonDto);
+        String token = userService.login(userCommonDto, res);
 
         ResponseMessage response = ResponseMessage.builder()
-                .data(user)
+                .data(token)
                 .statusCode(201)
                 .resultMessage("Login successfully")
                 .build();

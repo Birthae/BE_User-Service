@@ -52,4 +52,8 @@ public class User extends CommonEntity {
 
     private String EncryptrfPwd;
 
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
 }
