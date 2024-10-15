@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("이메일 또는 비밀번호가 유효하지 않습니다.");
         }
 
-        String token = jwtUtil.createToken(user.get().getEmail(), user.get().getRole());
+        String token = jwtUtil.createToken(user.get().getId(), user.get().getRole());
         jwtUtil.addJwtToCookie(token, res);
 
         return token;
